@@ -1,0 +1,262 @@
+aes_cbc_pkcs5_test.json
+
+  Low/Medium Priority.
+
+  No equivalent Test cases in NSS.
+  TODO: Implement AES_CBC_PKCS5 tests that can be constructed from test vectors.
+        Possibly reuse AES-GCM tests?
+  TODO: Convert test vectors to suitable format, e.g. C header files. 
+
+aes_ccm_test.json
+
+  Low Priority.
+
+  No equivalent Test cases in NSS.
+  TODO: Implement AES_CCM tests that can be constructed from test vectors.
+        Possibly reuse AES-GCM tests?
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+
+aes_cmac_test.json
+
+  Low Priority.
+
+  No equivalent Test cases in NSS.
+  TODO: Implement AES_CMAC tests that can be constructed from test vectors.
+        Possibly reuse AES-GCM tests?
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+
+aes_eax_test.json
+
+  Low Priority, or not implemented.
+
+  No equivalent Test cases in NSS.
+  TODO: Implement AES_EAX tests that can be constructed from test vectors.
+        Possibly reuse AES-GCM tests?
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+
+aes_gcm_siv_test.json
+
+  Probably not implemented in NSS.
+  
+  No equivalent Test cases in NSS.
+  TODO: Implement AES_GCM_SIV tests that can be constructed from test vectors.
+        Possibly reuse AES-GCM tests?
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+        See aes_gm_test.json
+
+aes_gcm_test.json
+
+  TODO: Reuse AES-GCM tests
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+  Testvector mapping (wycheproof -> NSS):
+  
+    key -> key
+    iv -> iv
+    aad -> additional_data
+    msg -> plaintext
+    ct -> result
+    tag -> ghash ?
+    result -> ??
+    flags -> ??
+    ?? -> hash_key
+    tcid -> <<testcaseID>>
+    comment -> <<comment>>
+    
+
+aes_siv_cmac_test.json
+
+  Probably not implemented.
+
+  No equivalent Test cases in NSS.
+  TODO: Implement AES_SIV_CMAC tests that can be constructed from test vectors.
+        Possibly reuse AES-GCM tests?
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+
+
+
+chacha20_poly1305_test.json
+  
+  TODO: Reuse CHACHA20_POLY1305 tests
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+  Testvector mapping (wycheproof -> NSS):
+  
+    key -> KEY
+    iv -> IV
+    aad -> AAD
+    msg -> DATA
+    ct -> CT[0, n-17]
+    tag -> CT[n-16, n]
+    result -> ??
+    flags -> ??
+    tcid -> <<testcaseID>>
+    comment -> <<comment>>
+
+
+
+
+dsa_test.json
+
+  No equivalent Test cases in NSS.
+  TODO: Implement DSA tests that can be constructed from test vectors.
+        ECDSA/RSAPSS tests are similiar and reusable.
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+
+
+
+
+
+ecdh_brainpoolP224r1_test.json
+ecdh_brainpoolP256r1_test.json
+ecdh_brainpoolP320r1_test.json
+ecdh_brainpoolP384r1_test.json
+ecdh_brainpoolP512r1_test.json
+
+  Brainpool Curves are not supported by NSS.
+
+
+
+
+ecdh_secp224r1_ecpoint_test.json
+ecdh_secp224r1_test.json
+ecdh_secp256k1_test.json
+ecdh_secp256r1_ecpoint_test.json
+ecdh_secp256r1_test.json
+ecdh_secp384r1_ecpoint_test.json
+ecdh_secp384r1_test.json
+ecdh_secp521r1_ecpoint_test.json
+ecdh_secp521r1_test.json
+
+  TODO: reuse freebl ecl_uniitest.
+        reuse pk11_curve25519_unittest.
+        Looks straightforward to implement. Is apparently not.
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+        To use the test vectors with PK11, they would need to be converted to
+        Pkcs8 and spki.
+        Freebl could work directly with the key format provided by wycheproof. 
+
+ecdh_test.json
+ 
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+        Remove test cases for brainpool curves that are not supported by nss. 
+
+
+
+
+ecdh_webcrypto_test.json
+
+  Not relevant for NSS. 
+
+  No equivalent tests in NSS. 
+  TODO: Find out about what webcrypto actually is.
+
+
+
+
+ecdsa_brainpoolP224r1_sha224_test.json
+ecdsa_brainpoolP256r1_sha256_test.json
+ecdsa_brainpoolP320r1_sha384_test.json
+ecdsa_brainpoolP384r1_sha384_test.json
+ecdsa_brainpoolP512r1_sha512_test.json
+
+  Brainpool Curves are not supported by NSS.
+
+
+
+
+ecdsa_secp224r1_sha224_test.json
+ecdsa_secp224r1_sha256_test.json
+ecdsa_secp224r1_sha512_test.json
+ecdsa_secp256k1_sha256_test.json
+ecdsa_secp256k1_sha512_test.json
+ecdsa_secp256r1_sha256_test.json
+ecdsa_secp256r1_sha512_test.json
+ecdsa_secp384r1_sha384_test.json
+ecdsa_secp384r1_sha512_test.json
+ecdsa_secp521r1_sha512_test.json
+ecdsa_test.json
+
+  TODO: Reuse and modify pk11_ecdsa_unittest
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+
+
+
+
+ecdsa_webcrypto_test.json
+
+  Not relevant for NSS. 
+
+  No equivalent tests in NSS. 
+  TODO: Find out about what webcrypto actually is. 
+
+
+
+eddsa_test.json
+
+  Is not implemented in NSS. 
+
+
+kwp_test.json
+kw_test.json
+  
+  Could be compatible with NSS. Needs more investigation. 
+  
+  TODO: Reuse and modify pk11_aeskeywrap_unittest?
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+
+
+
+
+rsa_pss_2048_sha1_mgf1_20_test.json
+rsa_pss_2048_sha256_mgf1_0_test.json
+rsa_pss_2048_sha256_mgf1_32_test.json
+rsa_pss_3072_sha256_mgf1_32_test.json
+rsa_pss_4096_sha256_mgf1_32_test.json
+rsa_pss_4096_sha512_mgf1_32_test.json
+rsa_pss_misc_test.json
+
+  TODO: Reuse and modify pk11_rsa_pss tests?
+        Modify test case construction to be configured with the parameters given
+        by wycheproof.
+        Modify tests to import key instead of generating it.
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+  Testvector mapping (wycheproof -> NSS):
+    
+  e -> rsaGenParams
+  keyAsn -> pubKey
+  keyDer -> pubKey
+  keyPem -> pubKey
+  keysize -> rsaGenParams
+  mgf -> CK_RSA_PKCS_MGF_TYPE mgf
+  mgfSha -> ??
+  n -> pubKey
+  sLen -> ??
+  sha -> ??
+  type -> ??
+
+
+
+rsa_signature_2048_sha224_test.json
+rsa_signature_2048_sha256_test.json
+rsa_signature_2048_sha512_test.json
+rsa_signature_3072_sha256_test.json
+rsa_signature_3072_sha384_test.json
+rsa_signature_3072_sha512_test.json
+rsa_signature_4096_sha384_test.json
+rsa_signature_4096_sha512_test.json
+rsa_signature_test.json
+
+  TODO: Reuse and modify pk11_rsapkcs1_unittest?
+        Modify test case construction to be configured with the parameters given
+        by wycheproof.
+        Modify tests to import key instead of generating it.
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+
+
+
+
+x25519_test.json
+
+  TODO: Reuse pk11_curve25519_unittest?
+  TODO: Convert test vectors to suitable format, e.g. C header files.
+        To use the test vectors with PK11, they would need to be converted to
+        Pkcs8 and spki.
