@@ -186,7 +186,8 @@ const gcm_kat_value kGcmKatValues[] = {
      "0000000000000000ffcef9ebbffdbd8b00000000000000000000000000000000", true}};
 
 
-/* Testvectors from project wycheproof */
+// Testvectors from project wycheproof
+// <https://github.com/google/wycheproof>
 const gcm_kat_value kGcmWycheproofVectors[] = {
 { 1,
  "5b9604fe14eadba931b0ccf34843dab9",

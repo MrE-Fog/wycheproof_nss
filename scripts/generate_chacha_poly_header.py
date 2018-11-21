@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Oct 24 16:09:00 2018
 
-@author: jonasda
-"""
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this file,
+# You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import json
+import os
 
-source_file = '../source/chacha20_poly1305_test.json'
-base_file = '../header_bases/chachapoly-vectors.h'
-target_file = '../target/chachapoly-vectors.h'
+script_dir = os.path.dirname(os.path.abspath(__file__))
+source_file = os.path.join(script_dir, '../wycheproof/testvectors/chacha20_poly1305_test.json')
+base_file = os.path.join(script_dir, '../header_bases/chachapoly-vectors.h')
+target_file = os.path.join(script_dir, '../target/chachapoly-vectors.h')
 
 # Imports a JSON testvector file.
 def import_testvector(file):

@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Oct 24 16:09:00 2018
 
-@author: jallmann@mozilla.com
-"""
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this file,
+# You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import json
+import os
 
-source_file = '../source/aes_gcm_test.json'
-base_file = '../header_bases/gcm-vectors.h'
-target_file = '../target/gcm-vectors.h'
-
+script_dir = os.path.dirname(os.path.abspath(__file__))
+source_file = os.path.join(script_dir, '../wycheproof/testvectors/aes_gcm_test.json')
+base_file = os.path.join(script_dir, '../header_bases/gcm-vectors.h')
+target_file = os.path.join(script_dir, '../target/gcm-vectors.h')
 
 # Imports a JSON testvector file.
 def import_testvector(file):
@@ -40,7 +40,7 @@ cases = import_testvector(source_file)
 with open(base_file) as base:
     header = base.read()
 
-header += "// Testvectors from project wycheproof\n"
+header += "\n\n// Testvectors from project wycheproof\n"
 header += "// <https://github.com/google/wycheproof>\n"
 header += "const gcm_kat_value kGcmWycheproofVectors[] = {\n"
 
