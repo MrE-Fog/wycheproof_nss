@@ -8,6 +8,10 @@ Created on Wed Oct 24 16:09:00 2018
 
 import json
 
+source_file = '../source/chacha20_poly1305_test.json'
+base_file = '../header_bases/chachapoly-vectors.h'
+target_file = '../target/chachapoly-vectors.h'
+
 # Imports a JSON testvector file.
 def import_testvector(file):
     
@@ -18,8 +22,7 @@ def import_testvector(file):
 
 
 def string_to_hex_array(string):
-    result = ""
-    result += "{\n\t"
+    result = "{"
     for i in range(0, len(string)/2):
         result += "0x"
         result += string[i*2]
@@ -29,65 +32,47 @@ def string_to_hex_array(string):
         if (i+1)%12 == 0:
             result += "\n\t"
 
-    result += "};"
+    result += "}"
     return result
 
 
-def format_testcase_to_nss(testcase, name):
-    nss_vector = "const uint8_t "
-    nss_vector += name
-    nss_vector += "Data[] = "
-    nss_vector += string_to_hex_array(testcase["msg"])
-    nss_vector += "\nconst uint8_t "
-    nss_vector += name
-    nss_vector += "AAD[] = "
-    nss_vector += string_to_hex_array(testcase["aad"])
-    nss_vector += "\nconst uint8_t "
-    nss_vector += name
-    nss_vector += "Key[] = "
-    nss_vector += string_to_hex_array(testcase["key"])
-    nss_vector += "\nconst uint8_t "
-    nss_vector += name
-    nss_vector += "IV[] = "
-    nss_vector += string_to_hex_array(testcase["iv"])
+def format_testcase_to_nss(testcase):
+    nss_vector = "\n// Comment: {}".format(testcase["comment"])
+    nss_vector += "\n{{{},\n".format(testcase["tcId"]-1)
+    nss_vector += "{},\n".format(string_to_hex_array(testcase["msg"]))
+    nss_vector += "{},\n".format(string_to_hex_array(testcase["aad"]))
+    nss_vector += "{},\n".format(string_to_hex_array(testcase["key"]))
+    nss_vector += "{},\n".format(string_to_hex_array(testcase["iv"]))
     ct = testcase["ct"] + testcase["tag"]
-    nss_vector += "\nconst uint8_t "
-    nss_vector += name
-    nss_vector += "CT[] = "
-    nss_vector += string_to_hex_array(ct)
-    nss_vector += "\nconst bool "
-    nss_vector += name
-    nss_vector += "Valid = "
-    if (testcase["result"] == "valid"):
-        nss_vector += "true;\n"
-    else:
-        nss_vector += "false;\n"
+    nss_vector += "{},\n".format(string_to_hex_array(ct))
+    nss_vector += "{}}},\n".format(str(testcase["result"] == "valid").lower())
 
     return nss_vector
 
-def generate_gtests_function(name):
-    func = "\nTEST_F(Pkcs11ChaCha20Poly1305Test, Chec"
-    func += name
-    func += ") {\n\tENCRYPT_DECRYPT("
-    func += name 
-    func += "); \n}"
-    return func
 
-cases = import_testvector("../source/chacha20_poly1305_test.json")
+cases = import_testvector(source_file)
 
-index = 3
+with open(base_file) as base:
+    header = base.read()
+    
+header += "\n\n// Testvectors from project wycheproof\n"
+header += "// <https://github.com/google/wycheproof>\n"
+header += "const chacha_testvector kChaCha20WycheproofVectors[] = {\n"
 
-test_vectors = ""
-gtests_functions = ""
-
+invalidNonceGroup = "const chacha_testvector kChaCha20WycheproofInvalidNonceVectors[] = {\n"
+    
 for group in cases["testGroups"]:
     for case in group["tests"]:
-        name = "kTestVector{}".format(index)
-        test_vectors += format_testcase_to_nss(case, name)
-        gtests_functions += generate_gtests_function(name)
-        index += 1
+        if case["comment"] == "invalid nonce size":
+            invalidNonceGroup += format_testcase_to_nss(case)
+        else:
+            header += format_testcase_to_nss(case)
+            
+header = header[:-2] + "};\n\n"
+header += invalidNonceGroup
+header = header[:-2] + "};\n\n"
 
-print test_vectors
-print gtests_functions
+header += "#endif  // chachapoly_vectors_h__"
 
-    
+with open(target_file, 'w') as target:
+    target.write(header)

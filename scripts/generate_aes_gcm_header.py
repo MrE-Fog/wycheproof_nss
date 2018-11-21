@@ -40,7 +40,8 @@ cases = import_testvector(source_file)
 with open(base_file) as base:
     header = base.read()
 
-header += "\n\n/* Testvectors from project wycheproof */\n"
+header += "// Testvectors from project wycheproof\n"
+header += "// <https://github.com/google/wycheproof>\n"
 header += "const gcm_kat_value kGcmWycheproofVectors[] = {\n"
 
 for group in cases["testGroups"]:
