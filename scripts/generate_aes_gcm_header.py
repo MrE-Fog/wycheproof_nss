@@ -30,7 +30,9 @@ def format_testcase(vector):
     result += " \"\",\n"
     result += " \"{}\",\n".format(vector["tag"])
     result += " \"{}\",\n".format(vector["ct"] + vector["tag"])
-    result += " {}}},\n\n".format(str(vector["result"] == "valid" or vector["result"] == "acceptable").lower())
+    result += " {},\n".format(str(vector["result"] == "invalid").lower())
+    result += " {}}},\n\n".format(str("ZeroLengthIv" in vector["flags"]).lower())
+
 
     return result
 
@@ -40,27 +42,19 @@ cases = import_testvector(source_file)
 with open(base_file) as base:
     header = base.read()
 
+header = header[:-28]
+
 header += "\n\n// Testvectors from project wycheproof\n"
 header += "// <https://github.com/google/wycheproof>\n"
 header += "const gcm_kat_value kGcmWycheproofVectors[] = {\n"
 
 for group in cases["testGroups"]:
     for test in group["tests"]:
-        if "ZeroLengthIv" not in test["flags"]:
-            header += format_testcase(test)
+        header += format_testcase(test)
 
 header = header[:-3] + "};\n\n"
 
-header += "const gcm_kat_value kGcmWycheproofEmptyIVVectors[] = {"
-
-for group in cases["testGroups"]:
-    for test in group["tests"]:
-        if "ZeroLengthIv" in test["flags"]:
-            header += format_testcase(test)
-
-header = header[:-3] + "};\n\n"
-
-header += "#endif  // gcm_vectors_h__"
+header += "#endif  // gcm_vectors_h__\n"
 
 with open(target_file, 'w') as target:
     target.write(header)

@@ -74,7 +74,7 @@ header = header[:-2] + "};\n\n"
 header += invalidNonceGroup
 header = header[:-2] + "};\n\n"
 
-header += "#endif  // chachapoly_vectors_h__"
+header += "#endif  // chachapoly_vectors_h__\n"
 
 with open(target_file, 'w') as target:
     target.write(header)

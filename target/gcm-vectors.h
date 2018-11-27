@@ -17,7 +17,8 @@ typedef struct gcm_kat_str {
   std::string hash_key;
   std::string ghash;
   std::string result;
-  bool valid;
+  bool invalid_ct;
+  bool invalid_iv;
 } gcm_kat_value;
 
 /*
@@ -26,12 +27,12 @@ typedef struct gcm_kat_str {
 const gcm_kat_value kGcmKatValues[] = {
     {1, "00000000000000000000000000000000", "", "", "000000000000000000000000",
      "66e94bd4ef8a2c3b884cfa59ca342b2e", "00000000000000000000000000000000",
-     "58e2fccefa7e3061367f1d57a4e7455a", true},
+     "58e2fccefa7e3061367f1d57a4e7455a", false, false},
 
     {2, "00000000000000000000000000000000", "00000000000000000000000000000000",
      "", "000000000000000000000000", "66e94bd4ef8a2c3b884cfa59ca342b2e",
      "f38cbb1ad69223dcc3457ae5b6b0f885",
-     "0388dace60b6a392f328c2b971b2fe78ab6e47d42cec13bdf53a67b21257bddf", true},
+     "0388dace60b6a392f328c2b971b2fe78ab6e47d42cec13bdf53a67b21257bddf", false, false},
 
     {3, "feffe9928665731c6d6a8f9467308308",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -41,7 +42,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e21d514b25"
      "466931c7d8f6a5aac84aa051ba30b396a0aac973d58e091473f59854d5c2af327cd64a62c"
      "f35abd2ba6fab4",
-     true},
+     false, false},
 
     {4, "feffe9928665731c6d6a8f9467308308",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -51,7 +52,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e21d514b25"
      "466931c7d8f6a5aac84aa051ba30b396a0aac973d58e0915bc94fbc3221a5db94fae95ae7"
      "121a47",
-     true},
+     false, false},
 
     {5, "feffe9928665731c6d6a8f9467308308",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -61,7 +62,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "61353b4c2806934a777ff51fa22a4755699b2a714fcdc6f83766e5f97b6c742373806900e"
      "49f24b22b097544d4896b424989b5e1ebac0f07c23f45983612d2e79e3b0785561be14aac"
      "a2fccb",
-     true},
+     false, false},
 
     {6, "feffe9928665731c6d6a8f9467308308",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -73,17 +74,17 @@ const gcm_kat_value kGcmKatValues[] = {
      "8ce24998625615b603a033aca13fb894be9112a5c3a211a8ba262a3cca7e2ca701e4a9a4f"
      "ba43c90ccdcb281d48c7c6fd62875d2aca417034c34aee5619cc5aefffe0bfa462af43c16"
      "99d050",
-     true},
+     false, false},
 
     {7, "000000000000000000000000000000000000000000000000", "", "",
      "000000000000000000000000", "aae06992acbf52a3e8f4a96ec9300bd7",
      "00000000000000000000000000000000", "cd33b28ac773f74ba00ed1f312572435",
-     true},
+     false, false},
 
     {8, "000000000000000000000000000000000000000000000000",
      "00000000000000000000000000000000", "", "000000000000000000000000",
      "aae06992acbf52a3e8f4a96ec9300bd7", "e2c63f0ac44ad0e02efa05ab6743d4ce",
-     "98e7247c07f0fe411c267e4384b0f6002ff58d80033927ab8ef4d4587514f0fb", true},
+     "98e7247c07f0fe411c267e4384b0f6002ff58d80033927ab8ef4d4587514f0fb", false, false},
 
     {9, "feffe9928665731c6d6a8f9467308308feffe9928665731c",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -93,7 +94,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "3980ca0b3c00e841eb06fac4872a2757859e1ceaa6efd984628593b40ca1e19c7d773d00c"
      "144c525ac619d18c84a3f4718e2448b2fe324d9ccda2710acade2569924a7c8587336bfb1"
      "18024db8674a14",
-     true},
+     false, false},
 
     {10, "feffe9928665731c6d6a8f9467308308feffe9928665731c",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -103,7 +104,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "3980ca0b3c00e841eb06fac4872a2757859e1ceaa6efd984628593b40ca1e19c7d773d00c"
      "144c525ac619d18c84a3f4718e2448b2fe324d9ccda27102519498e80f1478f37ba55bd6d"
      "27618c",
-     true},
+     false, false},
 
     {11, "feffe9928665731c6d6a8f9467308308feffe9928665731c",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -113,7 +114,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "0f10f599ae14a154ed24b36e25324db8c566632ef2bbb34f8347280fc4507057fddc29df9"
      "a471f75c66541d4d4dad1c9e93a19a58e8b473fa0f062f765dcc57fcf623a24094fcca40d"
      "3533f8",
-     true},
+     false, false},
 
     {12, "feffe9928665731c6d6a8f9467308308feffe9928665731c",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -125,17 +126,17 @@ const gcm_kat_value kGcmKatValues[] = {
      "d27e88681ce3243c4830165a8fdcf9ff1de9a1d8e6b447ef6ef7b79828666e4581e79012a"
      "f34ddd9e2f037589b292db3e67c036745fa22e7e9b7373bdcf566ff291c25bbb8568fc3d3"
      "76a6d9",
-     true},
+     false, false},
 
     {13, "0000000000000000000000000000000000000000000000000000000000000000", "",
      "", "000000000000000000000000", "dc95c078a2408989ad48a21492842087",
      "00000000000000000000000000000000", "530f8afbc74536b9a963b4f1c4cb738b",
-     true},
+     false, false},
 
     {14, "0000000000000000000000000000000000000000000000000000000000000000",
      "00000000000000000000000000000000", "", "000000000000000000000000",
      "dc95c078a2408989ad48a21492842087", "83de425c5edc5d498f382c441041ca92",
-     "cea7403d4d606b6e074ec5d3baf39d18d0d1c8a799996bf0265b98b5d48ab919", true},
+     "cea7403d4d606b6e074ec5d3baf39d18d0d1c8a799996bf0265b98b5d48ab919", false, false},
 
     {15, "feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -145,7 +146,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "522dc1f099567d07f47f37a32a84427d643a8cdcbfe5c0c97598a2bd2555d1aa8cb08e485"
      "90dbb3da7b08b1056828838c5f61e6393ba7a0abcc9f662898015adb094dac5d93471bdec"
      "1a502270e3cc6c",
-     true},
+     false, false},
 
     {16, "feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -155,7 +156,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "522dc1f099567d07f47f37a32a84427d643a8cdcbfe5c0c97598a2bd2555d1aa8cb08e485"
      "90dbb3da7b08b1056828838c5f61e6393ba7a0abcc9f66276fc6ece0f4e1768cddf8853bb"
      "2d551b",
-     true},
+     false, false},
 
     {17, "feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -165,7 +166,7 @@ const gcm_kat_value kGcmKatValues[] = {
      "c3762df1ca787d32ae47c13bf19844cbaf1ae14d0b976afac52ff7d79bba9de0feb582d33"
      "934a4f0954cc2363bc73f7862ac430e64abe499f47c9b1f3a337dbf46a792c45e454913fe"
      "2ea8f2",
-     true},
+     false, false},
 
     {18, "feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308",
      "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c959"
@@ -177,13 +178,13 @@ const gcm_kat_value kGcmKatValues[] = {
      "5a8def2f0c9e53f1f75d7853659e2a20eeb2b22aafde6419a058ab4f6f746bf40fc0c3b78"
      "0f244452da3ebf1c5d82cdea2418997200ef82e44ae7e3fa44a8266ee1c8eb0c8b5d4cf5a"
      "e9f19a",
-     true},
+     false, false},
 
     /* Extra, non-NIST, test case to test 64-bit binary multiplication carry
      * correctness. This is a GHASH-only test. */
     {19, "", "", "", "", "0000000000000000fcefef64ffc4766c",
      "3561e34e52d8b598f9937982512fff27",
-     "0000000000000000ffcef9ebbffdbd8b00000000000000000000000000000000", true}};
+     "0000000000000000ffcef9ebbffdbd8b00000000000000000000000000000000", false, false}};
 
 
 // Testvectors from project wycheproof
@@ -197,7 +198,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "0a3ea7a5487cb5f7d70fb6c58d038554",
  "26073cc1d851beff176384dc9896d5ff0a3ea7a5487cb5f7d70fb6c58d038554",
- true},
+ false,
+ false},
 
 { 2,
  "5b9604fe14eadba931b0ccf34843dab9",
@@ -207,7 +209,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1e348ba07cca2cf04c618cb4d43a5b92",
  "49d8b9783e911913d87094d1f63cc7651e348ba07cca2cf04c618cb4d43a5b92",
- true},
+ false,
+ false},
 
 { 3,
  "aa023d0478dcb2b2312498293d9a9129",
@@ -217,7 +220,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "4bb9b4812519dadf9e1232016d068133",
  "eea945f3d0f98cc0fbab472a0cf24e874bb9b4812519dadf9e1232016d068133",
- true},
+ false,
+ false},
 
 { 4,
  "384ea416ac3c2f51a76e7d8226346d4e",
@@ -227,7 +231,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "7c1e4ae88bb27e5638343cb9fd3f6337",
  "547c1e4ae88bb27e5638343cb9fd3f6337",
- true},
+ false,
+ false},
 
 { 5,
  "cae31cd9f55526eb038241fc44cac1e5",
@@ -237,7 +242,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "3b626940e0e9f0cbea8e18c437fd6011",
  "a036ead03193903f3b626940e0e9f0cbea8e18c437fd6011",
- true},
+ false,
+ false},
 
 { 6,
  "dd6197cd63c963919cf0c273ef6b28bf",
@@ -247,7 +253,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1486a91cccf92c9a5b00f7b0e034891c",
  "8a9992388e735f80ee18f4a63c10ad1486a91cccf92c9a5b00f7b0e034891c",
- true},
+ false,
+ false},
 
 { 7,
  "ffdf4228361ea1f8165852136b3480f7",
@@ -257,7 +264,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1ee6513ce30c7873f59dd4350a588f42",
  "f7bd379d130477176b8bb3cb23dbbbaa1ee6513ce30c7873f59dd4350a588f42",
- true},
+ false,
+ false},
 
 { 8,
  "c15ed227dd2e237ecd087eaaaad19ea4",
@@ -267,7 +275,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "6cd8521422c0177e83ef1b7a845d97db",
  "0de51fe4f7f2d1f0f917569f5c6d1b009c6cd8521422c0177e83ef1b7a845d97db",
- true},
+ false,
+ false},
 
 { 9,
  "a8ee11b26d7ceb7f17eaa1e4b83a2cf6",
@@ -277,7 +286,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "f4eb193241226db017b32ec38ca47217",
  "7cd9f4e4f365704fff3b9900aa93ba54b672bac554275650f4eb193241226db017b32ec38ca47217",
- true},
+ false,
+ false},
 
 { 10,
  "28ff3def08179311e2734c6d1c4e2871",
@@ -287,7 +297,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "5901131d0760c8715901d881fdfd3bc0",
  "f58d453212c2c8a436e9283672f579f1191229785901131d0760c8715901d881fdfd3bc0",
- true},
+ false,
+ false},
 
 { 11,
  "e63a43216c08867210e248859eb5e99c",
@@ -297,7 +308,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "a97d25b490390b53c5db91f6ee2a15b8",
  "bf864616c2347509ca9b10446379b9bdbb3b8f64a97d25b490390b53c5db91f6ee2a15b8",
- true},
+ false,
+ false},
 
 { 12,
  "38449890234eb8afab0bbf82e2385454",
@@ -307,7 +319,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b8bbdc4f5014bc752c8b4e9b87f650a3",
  "a6f2ef3c7ef74a126dd2d5f6673964e27d5b34b6b8bbdc4f5014bc752c8b4e9b87f650a3",
- true},
+ false,
+ false},
 
 { 13,
  "6a68671dfe323d419894381f85eb63fd",
@@ -317,7 +330,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "fce9a5b530c7d7af718be1ec0ae9ed4d",
  "bd64802cfebaeb487d3a8f76ce943a37b3472dd5fce9a5b530c7d7af718be1ec0ae9ed4d",
- true},
+ false,
+ false},
 
 { 14,
  "00112233445566778899aabbccddeeff",
@@ -327,7 +341,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "f62d84d649e56bc8cfedc5d74a51e2f7ffffffffffffffffffffffffffffffff",
- true},
+ false,
+ false},
 
 { 15,
  "00112233445566778899aabbccddeeff",
@@ -337,7 +352,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "431f31e6840931fd95f94bf88296ff6900000000000000000000000000000000",
- true},
+ false,
+ false},
 
 { 16,
  "000102030405060708090a0b0c0d0e0f",
@@ -347,6 +363,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d9847dbc326a06e988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d9847dbc326a06e988c77ad3863e6083",
+ true,
  false},
 
 { 17,
@@ -357,6 +374,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "da847dbc326a06e988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39da847dbc326a06e988c77ad3863e6083",
+ true,
  false},
 
 { 18,
@@ -367,6 +385,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "58847dbc326a06e988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b3958847dbc326a06e988c77ad3863e6083",
+ true,
  false},
 
 { 19,
@@ -377,6 +396,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8857dbc326a06e988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8857dbc326a06e988c77ad3863e6083",
+ true,
  false},
 
 { 20,
@@ -387,6 +407,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847d3c326a06e988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847d3c326a06e988c77ad3863e6083",
+ true,
  false},
 
 { 21,
@@ -397,6 +418,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc336a06e988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc336a06e988c77ad3863e6083",
+ true,
  false},
 
 { 22,
@@ -407,6 +429,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc306a06e988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc306a06e988c77ad3863e6083",
+ true,
  false},
 
 { 23,
@@ -417,6 +440,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a066988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a066988c77ad3863e6083",
+ true,
  false},
 
 { 24,
@@ -427,6 +451,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e989c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e989c77ad3863e6083",
+ true,
  false},
 
 { 25,
@@ -437,6 +462,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e908c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e908c77ad3863e6083",
+ true,
  false},
 
 { 26,
@@ -447,6 +473,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988e77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988e77ad3863e6083",
+ true,
  false},
 
 { 27,
@@ -457,6 +484,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988c77bd3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988c77bd3863e6083",
+ true,
  false},
 
 { 28,
@@ -467,6 +495,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988c77ad3873e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988c77ad3873e6083",
+ true,
  false},
 
 { 29,
@@ -477,6 +506,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988c77ad3843e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988c77ad3843e6083",
+ true,
  false},
 
 { 30,
@@ -487,6 +517,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988c77ad3063e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988c77ad3063e6083",
+ true,
  false},
 
 { 31,
@@ -497,6 +528,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988c77ad3863e6082",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988c77ad3863e6082",
+ true,
  false},
 
 { 32,
@@ -507,6 +539,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988c77ad3863e6081",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988c77ad3863e6081",
+ true,
  false},
 
 { 33,
@@ -517,6 +550,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988c77ad3863e60c3",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988c77ad3863e60c3",
+ true,
  false},
 
 { 34,
@@ -527,6 +561,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a06e988c77ad3863e6003",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a06e988c77ad3863e6003",
+ true,
  false},
 
 { 35,
@@ -537,6 +572,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d9847dbc326a06e989c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d9847dbc326a06e989c77ad3863e6083",
+ true,
  false},
 
 { 36,
@@ -547,6 +583,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847d3c326a066988c77ad3863e6083",
  "eb156d081ed6b6b55f4612f021d87b39d8847d3c326a066988c77ad3863e6083",
+ true,
  false},
 
 { 37,
@@ -557,6 +594,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d8847dbc326a066988c77ad3863e6003",
  "eb156d081ed6b6b55f4612f021d87b39d8847dbc326a066988c77ad3863e6003",
+ true,
  false},
 
 { 38,
@@ -567,6 +605,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "277b8243cd95f9167738852c79c19f7c",
  "eb156d081ed6b6b55f4612f021d87b39277b8243cd95f9167738852c79c19f7c",
+ true,
  false},
 
 { 39,
@@ -577,6 +616,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "eb156d081ed6b6b55f4612f021d87b3900000000000000000000000000000000",
+ true,
  false},
 
 { 40,
@@ -587,6 +627,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "eb156d081ed6b6b55f4612f021d87b39ffffffffffffffffffffffffffffffff",
+ true,
  false},
 
 { 41,
@@ -597,6 +638,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "5804fd3cb2ea86690847fa5306bee003",
  "eb156d081ed6b6b55f4612f021d87b395804fd3cb2ea86690847fa5306bee003",
+ true,
  false},
 
 { 42,
@@ -607,6 +649,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d9857cbd336b07e889c67bd2873f6182",
  "eb156d081ed6b6b55f4612f021d87b39d9857cbd336b07e889c67bd2873f6182",
+ true,
  false},
 
 { 43,
@@ -617,7 +660,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b7d0dd70b00d65b97cfd080ff4b819d1",
  "64c36bb3b732034e3a7d04efc5197785b7d0dd70b00d65b97cfd080ff4b819d1",
- true},
+ false,
+ false},
 
 { 44,
  "25dd4d6cad5a4604957847c8c6d3fc4e",
@@ -627,7 +671,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "5452843e32c13c3e35ed8230fe3446c0",
  "9a078a04d14938918e0043585452843e32c13c3e35ed8230fe3446c0",
- true},
+ false,
+ false},
 
 { 45,
  "2034a82547276c83dd3212a813572bce",
@@ -637,7 +682,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9b7abadd6e69c1d9ec925786534f5075",
  "64069c2d58690561f27ee199e6b479b6369eec688672bde99b7abadd6e69c1d9ec925786534f5075",
- true},
+ false,
+ false},
 
 { 46,
  "209e6dbf2ad26a105445fc0207cd9e9a",
@@ -647,7 +693,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "032df7bba5d8ea1a14f16f70bd0e14ec",
  "fd032df7bba5d8ea1a14f16f70bd0e14ec",
- true},
+ false,
+ false},
 
 { 47,
  "a549442e35154032d07c8666006aa6a2",
@@ -657,7 +704,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "e06d1ef473132957ad37eaef29733ca0",
  "2f333087bdca58219f9bfc273e45cce06d1ef473132957ad37eaef29733ca0",
- true},
+ false,
+ false},
 
 { 48,
  "cfb4c26f126f6a0acb8e4e220f6c56cd",
@@ -667,7 +715,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "2adeffa682c8d8a81fada7d9fcdd2ee2",
  "a780bd01c80885156c88a973264c8ee52adeffa682c8d8a81fada7d9fcdd2ee2",
- true},
+ false,
+ false},
 
 { 49,
  "0b11ef3a08c02970f74281c860691c75",
@@ -677,7 +726,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d01444fa5d9c499629d174ff3927a1ac",
  "7e47e10fe3c6fbfa381770eaf5d48d1482e71e0c44dff1e30ca6f95d92052084d01444fa5d9c499629d174ff3927a1ac",
- true},
+ false,
+ false},
 
 { 50,
  "00112233445566778899aabbccddeeff",
@@ -687,7 +737,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "152a65045fe674f97627427af5be22da",
  "00078d109d92143fcd5df56721b884fac64ac7762cc09eea2a3c68e92a17bdb575f87bda18be564e152a65045fe674f97627427af5be22da",
- true},
+ false,
+ false},
 
 { 51,
  "00112233445566778899aabbccddeeff",
@@ -697,7 +748,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "213a3cb93855d18e69337eee66aeec07",
  "84d4c9c08b4f482861e3a9c6c35bc4d91df927374513bfd49f436bd73f325285daef4ff7e13d46a6213a3cb93855d18e69337eee66aeec07",
- true},
+ false,
+ false},
 
 { 52,
  "00112233445566778899aabbccddeeff",
@@ -707,7 +759,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "99b381bfa2af9751c39d1b6e86d1be6a",
  "948ca37a8e6649e88aeffb1c598f3607007702417ea0e0bc3c60ad5a949886de968cf53ea6462aed99b381bfa2af9751c39d1b6e86d1be6a",
- true},
+ false,
+ false},
 
 { 53,
  "00112233445566778899aabbccddeeff",
@@ -717,7 +770,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "5281efc7f13ac8e14ccf5dca7bfbfdd1",
  "64b19314c31af45accdf7e3c4db79f0d948ca37a8e6649e88aeffb1c598f3607007702417ea0e0bc5281efc7f13ac8e14ccf5dca7bfbfdd1",
- true},
+ false,
+ false},
 
 { 54,
  "00112233445566778899aabbccddeeff",
@@ -727,7 +781,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "a3ea2c09ee4f8c8a12f45cddf9aeff81",
  "2bb69c3e5d1f91815c6b87a0d5bbea7164b19314c31af45accdf7e3c4db79f0d948ca37a8e6649e8a3ea2c09ee4f8c8a12f45cddf9aeff81",
- true},
+ false,
+ false},
 
 { 55,
  "00112233445566778899aabbccddeeff",
@@ -737,7 +792,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "07eb2fe4a958f8434d40684899507c7c",
  "127af9b39ecdfc57bb11a2847c7c2d3d8f938f40f877e0c4af37d0fe9af033052bd537c4ae978f6007eb2fe4a958f8434d40684899507c7c",
- true},
+ false,
+ false},
 
 { 56,
  "00112233445566778899aabbccddeeff",
@@ -747,7 +803,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "f145c2dcaf339eede427be934357eac0",
  "0cf6ae47156b14dce03c8a07a2e172b1127af9b39ecdfc57bb11a2847c7c2d3d8f938f40f877e0c4f145c2dcaf339eede427be934357eac0",
- true},
+ false,
+ false},
 
 { 57,
  "00112233445566778899aabbccddeeff",
@@ -757,7 +814,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "facd0bfe8701b7b4a2ba96d98af52bd9",
  "f0c6ffc18bd46df5569185a9afd169eb0cf6ae47156b14dce03c8a07a2e172b1127af9b39ecdfc57facd0bfe8701b7b4a2ba96d98af52bd9",
- true},
+ false,
+ false},
 
 { 58,
  "00112233445566778899aabbccddeeff",
@@ -767,7 +825,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "a03e729dcfd7a03155655fece8affd7e",
  "d6928e094c06e0a7c4db42184cf7529e95de88b767edebe9b343000be3dab47ea08b744293eed698a03e729dcfd7a03155655fece8affd7e",
- true},
+ false,
+ false},
 
 { 59,
  "00112233445566778899aabbccddeeff",
@@ -777,7 +836,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1e43926828bc9a1614c7b1639096c195",
  "d82ce58771bf6487116bf8e96421877ed6928e094c06e0a7c4db42184cf7529e95de88b767edebe91e43926828bc9a1614c7b1639096c195",
- true},
+ false,
+ false},
 
 { 60,
  "00112233445566778899aabbccddeeff",
@@ -787,7 +847,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "f08baddf0b5285c91fc06a67fe4708ca",
  "a197a37a5d79697078536bc27fe46cd8d475526d9044aa94f088a054f8e380c64f79414795c61480f08baddf0b5285c91fc06a67fe4708ca",
- true},
+ false,
+ false},
 
 { 61,
  "00112233445566778899aabbccddeeff",
@@ -797,7 +858,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "62a4b6875c288345d6a454399eac1afa",
  "149fde9abbd3a43c2548575e0db9fb84a197a37a5d79697078536bc27fe46cd8d475526d9044aa9462a4b6875c288345d6a454399eac1afa",
- true},
+ false,
+ false},
 
 { 62,
  "00112233445566778899aabbccddeeff",
@@ -807,7 +869,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "45a3f89d02918bfd0c8161658ccc979500000000000000000000000000000000",
- true},
+ false,
+ false},
 
 { 63,
  "00112233445566778899aabbccddeeff",
@@ -817,7 +880,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "1cd5a06214235ceb044d4bad7b047312ffffffffffffffffffffffffffffffff",
- true},
+ false,
+ false},
 
 { 64,
  "92ace3e348cd821092cd921aa3546374299ab46209691bc28b8752d17f123c20",
@@ -827,7 +891,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9a4a2579529301bcfb71c78d4060f52c",
  "e27abdd2d2a53d2f136b9a4a2579529301bcfb71c78d4060f52c",
- true},
+ false,
+ false},
 
 { 65,
  "29d3a44f8723dc640239100c365423a312934ac80239212ac3df3421a2098123",
@@ -837,7 +902,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "2a7d77fa526b8250cb296078926b5020",
  "2a7d77fa526b8250cb296078926b5020",
- true},
+ false,
+ false},
 
 { 66,
  "cc56b680552eb75008f5484b4cb803fa5063ebd6eab91f6ab6aef4916a766273",
@@ -847,7 +913,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "633c1e9703ef744ffffb40edf9d14355",
  "06633c1e9703ef744ffffb40edf9d14355",
- true},
+ false,
+ false},
 
 { 67,
  "51e4bf2bad92b7aff1a4bc05550ba81df4b96fabf41c12c7b00e60e48db7e152",
@@ -857,7 +924,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "602e8d7c4799d62c140c9bb834876b09",
  "cf332a12fdee800b602e8d7c4799d62c140c9bb834876b09",
- true},
+ false,
+ false},
 
 { 68,
  "67119627bd988eda906219e08c0d0d779a07d208ce8a4fe0709af755eeec6dcb",
@@ -867,7 +935,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ec04aacb7148a8b8be44cb7eaf4efa69",
  "43fc101bff4b32bfadd3daf57a590eec04aacb7148a8b8be44cb7eaf4efa69",
- true},
+ false,
+ false},
 
 { 69,
  "59d4eafb4de0cfc7d3db99a8f54b15d7b39f0acc8da69763b019c1699f87674a",
@@ -877,7 +946,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "28752c20153092818faba2a334640d6e",
  "f58c16690122d75356907fd96b570fca28752c20153092818faba2a334640d6e",
- true},
+ false,
+ false},
 
 { 70,
  "3b2458d8176e1621c0cc24c0c0e24c1e80d72f7ee9149a4b166176629616d011",
@@ -887,7 +957,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "2d7379ec1db5952d4e95d30c340b1b1d",
  "73a6b6f45f6ccc5131e07f2caa1f2e2f562d7379ec1db5952d4e95d30c340b1b1d",
- true},
+ false,
+ false},
 
 { 71,
  "0212a8de5007ed87b33f1a7090b6114f9e08cefd9607f2c276bdcfdbc5ce9cd7",
@@ -897,7 +968,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "7355fde599006715053813ce696237a8",
  "0843fff52d934fc7a071ea62c0bd351ce85678cde3ea2c9e7355fde599006715053813ce696237a8",
- true},
+ false,
+ false},
 
 { 72,
  "b279f57e19c8f53f2f963f5f2519fdb7c1779be2ca2b3ae8e1128b7d6c627fc4",
@@ -907,7 +979,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ecb660e1fb0541ec41e8d68a64141b3a",
  "eb5500e3825952866d911253f8de860c00831c81ecb660e1fb0541ec41e8d68a64141b3a",
- true},
+ false,
+ false},
 
 { 73,
  "cdccfe3f46d782ef47df4e72f0c02d9c7f774def970d23486f11a57f54247f17",
@@ -917,7 +990,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "082e91924deeb77880e1b1c84f9b8d30",
  "feca44952447015b5df1f456df8ca4bb4eee2ce2082e91924deeb77880e1b1c84f9b8d30",
- true},
+ false,
+ false},
 
 { 74,
  "f32364b1d339d82e4f132d8f4a0ec1ff7e746517fa07ef1a7f422f4e25a48194",
@@ -927,7 +1001,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "c3922583476ced575404ddb85dd8cd44",
  "43dda832e942e286da314daa99bef5071d9d2c78c3922583476ced575404ddb85dd8cd44",
- true},
+ false,
+ false},
 
 { 75,
  "ff0089ee870a4a39f645b0a5da774f7a5911e9696fc9cad646452c2aa8595a12",
@@ -937,7 +1012,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ebec6774b955e789591c822dab739e12",
  "a929ee7e67c7a2f91bbcec6389a3caf43ab49305ebec6774b955e789591c822dab739e12",
- true},
+ false,
+ false},
 
 { 76,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -947,7 +1023,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "23293e9b07ca7d1b0cae7cc489a973b3ffffffffffffffffffffffffffffffff",
- true},
+ false,
+ false},
 
 { 77,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -957,7 +1034,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "7cb6fc7c6abc009efe9551a99f36a42100000000000000000000000000000000",
- true},
+ false,
+ false},
 
 { 78,
  "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
@@ -967,6 +1045,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9de8fef6d8ab1bf1bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9de8fef6d8ab1bf1bf887232eab590dd",
+ true,
  false},
 
 { 79,
@@ -977,6 +1056,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ee8fef6d8ab1bf1bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ee8fef6d8ab1bf1bf887232eab590dd",
+ true,
  false},
 
 { 80,
@@ -987,6 +1067,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1ce8fef6d8ab1bf1bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa1ce8fef6d8ab1bf1bf887232eab590dd",
+ true,
  false},
 
 { 81,
@@ -997,6 +1078,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce9fef6d8ab1bf1bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce9fef6d8ab1bf1bf887232eab590dd",
+ true,
  false},
 
 { 82,
@@ -1007,6 +1089,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fe76d8ab1bf1bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fe76d8ab1bf1bf887232eab590dd",
+ true,
  false},
 
 { 83,
@@ -1017,6 +1100,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d9ab1bf1bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d9ab1bf1bf887232eab590dd",
+ true,
  false},
 
 { 84,
@@ -1027,6 +1111,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6daab1bf1bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6daab1bf1bf887232eab590dd",
+ true,
  false},
 
 { 85,
@@ -1037,6 +1122,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1b71bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1b71bf887232eab590dd",
+ true,
  false},
 
 { 86,
@@ -1047,6 +1133,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1be887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1be887232eab590dd",
+ true,
  false},
 
 { 87,
@@ -1057,6 +1144,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf13f887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf13f887232eab590dd",
+ true,
  false},
 
 { 88,
@@ -1067,6 +1155,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bfa87232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bfa87232eab590dd",
+ true,
  false},
 
 { 89,
@@ -1077,6 +1166,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bf887332eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bf887332eab590dd",
+ true,
  false},
 
 { 90,
@@ -1087,6 +1177,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bf887232ebb590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bf887232ebb590dd",
+ true,
  false},
 
 { 91,
@@ -1097,6 +1188,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bf887232e8b590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bf887232e8b590dd",
+ true,
  false},
 
 { 92,
@@ -1107,6 +1199,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bf8872326ab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bf8872326ab590dd",
+ true,
  false},
 
 { 93,
@@ -1117,6 +1210,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bf887232eab590dc",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bf887232eab590dc",
+ true,
  false},
 
 { 94,
@@ -1127,6 +1221,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bf887232eab590df",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bf887232eab590df",
+ true,
  false},
 
 { 95,
@@ -1137,6 +1232,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bf887232eab5909d",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bf887232eab5909d",
+ true,
  false},
 
 { 96,
@@ -1147,6 +1243,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1bf1bf887232eab5905d",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1bf1bf887232eab5905d",
+ true,
  false},
 
 { 97,
@@ -1157,6 +1254,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9de8fef6d8ab1bf1be887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9de8fef6d8ab1bf1be887232eab590dd",
+ true,
  false},
 
 { 98,
@@ -1167,6 +1265,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fe76d8ab1b71bf887232eab590dd",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fe76d8ab1b71bf887232eab590dd",
+ true,
  false},
 
 { 99,
@@ -1177,6 +1276,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9ce8fef6d8ab1b71bf887232eab5905d",
  "b2061457c0759fc1749f174ee1ccadfa9ce8fef6d8ab1b71bf887232eab5905d",
+ true,
  false},
 
 { 100,
@@ -1187,6 +1287,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "631701092754e40e40778dcd154a6f22",
  "b2061457c0759fc1749f174ee1ccadfa631701092754e40e40778dcd154a6f22",
+ true,
  false},
 
 { 101,
@@ -1197,6 +1298,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "b2061457c0759fc1749f174ee1ccadfa00000000000000000000000000000000",
+ true,
  false},
 
 { 102,
@@ -1207,6 +1309,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "b2061457c0759fc1749f174ee1ccadfaffffffffffffffffffffffffffffffff",
+ true,
  false},
 
 { 103,
@@ -1217,6 +1320,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1c687e76582b9b713f08f2b26a35105d",
  "b2061457c0759fc1749f174ee1ccadfa1c687e76582b9b713f08f2b26a35105d",
+ true,
  false},
 
 { 104,
@@ -1227,6 +1331,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9de9fff7d9aa1af0be897333ebb491dc",
  "b2061457c0759fc1749f174ee1ccadfa9de9fff7d9aa1af0be897333ebb491dc",
+ true,
  false},
 
 { 105,
@@ -1237,7 +1342,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "09338a42f0acc14f97c064f52f5f1688",
  "f83cee467336e1a09b75f24e9b4385c99c13e6af722256a66129ece961fe803b167bad206f5017fb09338a42f0acc14f97c064f52f5f1688",
- true},
+ false,
+ false},
 
 { 106,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1247,7 +1353,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "90be3606de58bd778fa5beff4a4102bd",
  "0b32b648a2c28e9edd7cee08eeeb900034cae7215e5ab1e201bd2eed1032c5a97866ba582a3458a490be3606de58bd778fa5beff4a4102bd",
- true},
+ false,
+ false},
 
 { 107,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1257,7 +1364,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "6e4d6396125a10df5443bd0cbc8566d1",
  "575e2ecec2b3c72d4e80830d0d859ad9e42c29c4a68d8d9d8d23434de2cd07733be49d62ac1ae0856e4d6396125a10df5443bd0cbc8566d1",
- true},
+ false,
+ false},
 
 { 108,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1267,7 +1375,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "dc481f172545268eff63ab0490403dc3",
  "2a818888d1f09f32aa7beedd2869b446575e2ecec2b3c72d4e80830d0d859ad9e42c29c4a68d8d9ddc481f172545268eff63ab0490403dc3",
- true},
+ false,
+ false},
 
 { 109,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1277,7 +1386,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "8a3a22bf2592958b930292aa47f590e8",
  "96d36b795f8e7edf6a8e0dbcd20d6c072a818888d1f09f32aa7beedd2869b446575e2ecec2b3c72d8a3a22bf2592958b930292aa47f590e8",
- true},
+ false,
+ false},
 
 { 110,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1287,7 +1397,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "2db9dc1b7fd315df1c95432432fcf474",
  "cfce3d920f0e01f0bb49a751955b236d1b887baefd25c47f41303c46d5c7bf9ca4c2c45a8f1e66562db9dc1b7fd315df1c95432432fcf474",
- true},
+ false,
+ false},
 
 { 111,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1297,7 +1408,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "82ad967f7ac19084354f69a751443fb2",
  "69a24169792e9a07f6e6f4736fa972dccfce3d920f0e01f0bb49a751955b236d1b887baefd25c47f82ad967f7ac19084354f69a751443fb2",
- true},
+ false,
+ false},
 
 { 112,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1307,7 +1419,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "472d5dd582dc05ef5fc496b612023cb2",
  "4e4417a83beac1eb7e24456a05f6ba5569a24169792e9a07f6e6f4736fa972dccfce3d920f0e01f0472d5dd582dc05ef5fc496b612023cb2",
- true},
+ false,
+ false},
 
 { 113,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1317,7 +1430,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "caff723826df150934aee3201ba175e7",
  "6f8e174efca3097299f784efd4caff0bf168c3e5165b9ad3d20062009848044eef8f31f7d2fead05caff723826df150934aee3201ba175e7",
- true},
+ false,
+ false},
 
 { 114,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1327,7 +1441,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "3b08958be1286c2b4acba02b3674adb2",
  "af193090ce3d43a388a1d294a09616906f8e174efca3097299f784efd4caff0bf168c3e5165b9ad33b08958be1286c2b4acba02b3674adb2",
- true},
+ false,
+ false},
 
 { 115,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1337,7 +1452,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "c14d52208f0f51b816a48971eaf8ff7e",
  "5deccf838b2cf5f869c90d2a611160b1e578ab8121b93735cba4a1930647b8c4c84bf776333ee45ac14d52208f0f51b816a48971eaf8ff7e",
- true},
+ false,
+ false},
 
 { 116,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1347,7 +1463,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ea2d018099cd7925c507cef0ceddb0ae",
  "d2cae1684aa407a13a2e2da5357e29f55deccf838b2cf5f869c90d2a611160b1e578ab8121b93735ea2d018099cd7925c507cef0ceddb0ae",
- true},
+ false,
+ false},
 
 { 117,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1357,7 +1474,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "541b835dc828d541073f7d7d7504ebf500000000000000000000000000000000",
- true},
+ false,
+ false},
 
 { 118,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1367,7 +1485,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "a3f36154331c196624564bc395e49c3bffffffffffffffffffffffffffffffff",
- true},
+ false,
+ false},
 
 { 119,
  "cee9abbc26b63e169f0ced621fe21d95904e75b881d93e6b",
@@ -1377,7 +1496,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "af1f5535b125b34fc466902ea40cb3a2",
  "dcaf1f5535b125b34fc466902ea40cb3a2",
- true},
+ false,
+ false},
 
 { 120,
  "189f0bd390ba40632586a45c39735c2b87113329c800f394",
@@ -1387,7 +1507,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "6b03b7557c7131e2352e495d54e61aef",
  "2aab5c87dcb4a4dae4e975ddb65aab6b03b7557c7131e2352e495d54e61aef",
- true},
+ false,
+ false},
 
 { 121,
  "b0724f15df5b792c2f49bc51df0ac5aad69be0030981613c",
@@ -1397,7 +1518,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "eb05bda937faeed27f8833295d4ba559",
  "d127fd2e67c0887d90eb92b91f357d97eb05bda937faeed27f8833295d4ba559",
- true},
+ false,
+ false},
 
 { 122,
  "998750ba784841e40a7c5b03985732b6397e5459a3843954",
@@ -1407,7 +1529,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "bab7fbf499ff06aad5f757b1c1a4fcc0",
  "344c2cea17b06cb3da272e22a22a3a71ee0eaa1959a7facfff464660ddccedd1bab7fbf499ff06aad5f757b1c1a4fcc0",
- true},
+ false,
+ false},
 
 { 123,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1417,7 +1540,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "3f875c9bd7d8511448459468e398c3b2ffffffffffffffffffffffffffffffff",
- true},
+ false,
+ false},
 
 { 124,
  "00112233445566778899aabbccddeeff1021324354657687",
@@ -1427,7 +1551,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "210dabea4364c6d5b3429e774332293600000000000000000000000000000000",
- true},
+ false,
+ false},
 
 { 125,
  "21218af790428f8024d3e7e1428c9fcf578c216636d60e73",
@@ -1437,7 +1562,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "2e982e24b81cd120d35a70fe6935e665",
  "fe2e982e24b81cd120d35a70fe6935e665",
- true},
+ false,
+ false},
 
 { 126,
  "3a8bf543c480925632118245bcbf5d01522b987a31a33da3",
@@ -1447,7 +1573,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "6870f104ddc514477b400336fb01860e",
  "99f2ff1c8a44e5f26870f104ddc514477b400336fb01860e",
- true},
+ false,
+ false},
 
 { 127,
  "92f4d2672fceec43963ccffb17e6ea7578b11418b06a3b82",
@@ -1457,7 +1584,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "29fff7f285768645c9c8bf7a471c9393",
  "afe8ef41591bfcc00db3c880ceb18629fff7f285768645c9c8bf7a471c9393",
- true},
+ false,
+ false},
 
 { 128,
  "bcb6bc5ee6743df1396a34639327b25809ec9c81dd6a0c0e",
@@ -1467,7 +1595,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "e3d33e01ce64f271783147de226228bc",
  "90339dca02ef717f1603994aee6cf6d2e3d33e01ce64f271783147de226228bc",
- true},
+ false,
+ false},
 
 { 129,
  "5e1d28213e092536525bbae09e214af4c891e202b2b4fa4f",
@@ -1477,7 +1606,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9f50c03e055e519712c582ec9db3235b",
  "b98ed6321679941a3e521834296686ad989f50c03e055e519712c582ec9db3235b",
- true},
+ false,
+ false},
 
 { 130,
  "7f672d85e151aa490bc0eec8f66b5e5bee74af11642be3ff",
@@ -1487,7 +1617,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "fa0484f8baa95f5b7a31c56d1b34c58b",
  "addd303651119e52f6170dfc7a915064253d57532987b9abfa0484f8baa95f5b7a31c56d1b34c58b",
- true},
+ false,
+ false},
 
 { 131,
  "969fed5068541d65418c2c1de8fe1f845e036030496e1272",
@@ -1497,7 +1628,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "92909a80e90540e1878ab59ef300072b",
  "0d2c3a3c0cc4b40e70ed45e188e356a0e1533b3192909a80e90540e1878ab59ef300072b",
- true},
+ false,
+ false},
 
 { 132,
  "fa5b9b41f93f8b682c04ba816c3fecc24eec095b04dd7497",
@@ -1507,7 +1639,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "253317f98bdab87531ece20475cd9ebb",
  "c7c1cbb85ce2a0a3f32cb9ef01ad45ec1118b66d253317f98bdab87531ece20475cd9ebb",
- true},
+ false,
+ false},
 
 { 133,
  "fbfb395662787e2d25a2e7510f818e825936a35114e237c9",
@@ -1517,7 +1650,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "e0877a100f9dd9d6795f0e74c56a9fab",
  "ecf5e403f19c007c8da7a456caf0a6d75762829be0877a100f9dd9d6795f0e74c56a9fab",
- true},
+ false,
+ false},
 
 { 134,
  "5d8e9c2222316c9ed5ff94513cc957436ae447a6e1a73a29",
@@ -1527,7 +1661,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "62196638590cef429d6b1d1a59839c02",
  "94d844d98b9467daa7e8dde7f4290037354d7fb262196638590cef429d6b1d1a59839c02",
- true},
+ false,
+ false},
 
 { 135,
  "000102030405060708090a0b0c0d0e0f1011121314151617",
@@ -1537,6 +1672,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b5e44c5b2fe90e4c78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b5e44c5b2fe90e4c78f358da0d99cb64",
+ true,
  false},
 
 { 136,
@@ -1547,6 +1683,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b6e44c5b2fe90e4c78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b6e44c5b2fe90e4c78f358da0d99cb64",
+ true,
  false},
 
 { 137,
@@ -1557,6 +1694,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "34e44c5b2fe90e4c78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db034e44c5b2fe90e4c78f358da0d99cb64",
+ true,
  false},
 
 { 138,
@@ -1567,6 +1705,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e54c5b2fe90e4c78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e54c5b2fe90e4c78f358da0d99cb64",
+ true,
  false},
 
 { 139,
@@ -1577,6 +1716,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44cdb2fe90e4c78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44cdb2fe90e4c78f358da0d99cb64",
+ true,
  false},
 
 { 140,
@@ -1587,6 +1727,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2ee90e4c78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2ee90e4c78f358da0d99cb64",
+ true,
  false},
 
 { 141,
@@ -1597,6 +1738,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2de90e4c78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2de90e4c78f358da0d99cb64",
+ true,
  false},
 
 { 142,
@@ -1607,6 +1749,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90ecc78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90ecc78f358da0d99cb64",
+ true,
  false},
 
 { 143,
@@ -1617,6 +1760,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c79f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c79f358da0d99cb64",
+ true,
  false},
 
 { 144,
@@ -1627,6 +1771,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4cf8f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4cf8f358da0d99cb64",
+ true,
  false},
 
 { 145,
@@ -1637,6 +1782,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78d358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78d358da0d99cb64",
+ true,
  false},
 
 { 146,
@@ -1647,6 +1793,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78f359da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78f359da0d99cb64",
+ true,
  false},
 
 { 147,
@@ -1657,6 +1804,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78f358da0c99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78f358da0c99cb64",
+ true,
  false},
 
 { 148,
@@ -1667,6 +1815,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78f358da0f99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78f358da0f99cb64",
+ true,
  false},
 
 { 149,
@@ -1677,6 +1826,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78f358da8d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78f358da8d99cb64",
+ true,
  false},
 
 { 150,
@@ -1687,6 +1837,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78f358da0d99cb65",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78f358da0d99cb65",
+ true,
  false},
 
 { 151,
@@ -1697,6 +1848,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78f358da0d99cb66",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78f358da0d99cb66",
+ true,
  false},
 
 { 152,
@@ -1707,6 +1859,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78f358da0d99cb24",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78f358da0d99cb24",
+ true,
  false},
 
 { 153,
@@ -1717,6 +1870,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90e4c78f358da0d99cbe4",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90e4c78f358da0d99cbe4",
+ true,
  false},
 
 { 154,
@@ -1727,6 +1881,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b5e44c5b2fe90e4c79f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b5e44c5b2fe90e4c79f358da0d99cb64",
+ true,
  false},
 
 { 155,
@@ -1737,6 +1892,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44cdb2fe90ecc78f358da0d99cb64",
  "458256842dfd297f30bd2f8f15c92db0b4e44cdb2fe90ecc78f358da0d99cb64",
+ true,
  false},
 
 { 156,
@@ -1747,6 +1903,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b4e44c5b2fe90ecc78f358da0d99cbe4",
  "458256842dfd297f30bd2f8f15c92db0b4e44c5b2fe90ecc78f358da0d99cbe4",
+ true,
  false},
 
 { 157,
@@ -1757,6 +1914,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "4b1bb3a4d016f1b3870ca725f266349b",
  "458256842dfd297f30bd2f8f15c92db04b1bb3a4d016f1b3870ca725f266349b",
+ true,
  false},
 
 { 158,
@@ -1767,6 +1925,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "458256842dfd297f30bd2f8f15c92db000000000000000000000000000000000",
+ true,
  false},
 
 { 159,
@@ -1777,6 +1936,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "458256842dfd297f30bd2f8f15c92db0ffffffffffffffffffffffffffffffff",
+ true,
  false},
 
 { 160,
@@ -1787,6 +1947,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "3464ccdbaf698eccf873d85a8d194be4",
  "458256842dfd297f30bd2f8f15c92db03464ccdbaf698eccf873d85a8d194be4",
+ true,
  false},
 
 { 161,
@@ -1797,6 +1958,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b5e54d5a2ee80f4d79f259db0c98ca65",
  "458256842dfd297f30bd2f8f15c92db0b5e54d5a2ee80f4d79f259db0c98ca65",
+ true,
  false},
 
 { 162,
@@ -1807,7 +1969,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d5808a1bd11a01129bf3c6919aff2339",
  "28e1c5232f4ee8161dbe4c036309e0b3254e9212bef0a93431ce5e5604c8f6a73c18a3183018b770d5808a1bd11a01129bf3c6919aff2339",
- true},
+ false,
+ false},
 
 { 163,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1817,7 +1980,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "8132e865b69d64ef37db261f80cbbe24",
  "cceebeb4fe4cd90c514e52d2327a2ecd75393661006cf2476d8620149aef3d1cdce491fff3e7a7a38132e865b69d64ef37db261f80cbbe24",
- true},
+ false,
+ false},
 
 { 164,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1827,7 +1991,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "155da6441ec071ef2d8e6cffbacc1c7c",
  "4f4350565d91d9aa8c5f4048550492ad6d6fdabf66da5d1e2af7bfe1a8aadaa0baa3de38a41d9713155da6441ec071ef2d8e6cffbacc1c7c",
- true},
+ false,
+ false},
 
 { 165,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1837,7 +2002,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "6c574aa6a2490cc3b2f2f8f0ffbc56c4",
  "8316a53167b6de1a7575700693ffef274f4350565d91d9aa8c5f4048550492ad6d6fdabf66da5d1e6c574aa6a2490cc3b2f2f8f0ffbc56c4",
- true},
+ false,
+ false},
 
 { 166,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1847,7 +2013,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "8082a761e1d755344bf29622144e7d39",
  "5175927513e751eb309f45bc2ef225f28316a53167b6de1a7575700693ffef274f4350565d91d9aa8082a761e1d755344bf29622144e7d39",
- true},
+ false,
+ false},
 
 { 167,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1857,7 +2024,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "033e0ef2953ebfd8425737c7d393f89a",
  "36b3fbecd09178d04527fb37544f5579d20d60a41266f685c48098e1a52804ca387d90709d3268dd033e0ef2953ebfd8425737c7d393f89a",
- true},
+ false,
+ false},
 
 { 168,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1867,7 +2035,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ca448bb7e52e897eca234ef343d057d0",
  "16929b773051f12b0adac95f65e21a7f36b3fbecd09178d04527fb37544f5579d20d60a41266f685ca448bb7e52e897eca234ef343d057d0",
- true},
+ false,
+ false},
 
 { 169,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1877,7 +2046,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "84f49740e6757f63dd0df7cb7656d0ef",
  "6d3faefaf691d58163846f8d4b9ffd5916929b773051f12b0adac95f65e21a7f36b3fbecd09178d084f49740e6757f63dd0df7cb7656d0ef",
- true},
+ false,
+ false},
 
 { 170,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1887,7 +2057,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "877e15d9889e69a99fcc6d727465c391",
  "d60196c2d14fcf30c0991d2721ddc52d385f407a16691dade82c9023c855fd8e2e8fbb562102f018877e15d9889e69a99fcc6d727465c391",
- true},
+ false,
+ false},
 
 { 171,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1897,7 +2068,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "cd5757626945976ba9f0264bd6bee894",
  "948fbceca12a6e4fabb79b6d965e336fd60196c2d14fcf30c0991d2721ddc52d385f407a16691dadcd5757626945976ba9f0264bd6bee894",
- true},
+ false,
+ false},
 
 { 172,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1907,7 +2079,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b015d72da62c81cb4d267253b20db9e5",
  "a1a0120660ff52e6b1700b12c54d2d33b94b00cd7882d8857d84e6e183a1dea6ee85a7da84fbc35db015d72da62c81cb4d267253b20db9e5",
- true},
+ false,
+ false},
 
 { 173,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1917,7 +2090,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ee74ccb30d649ebf6916d05a7dbe5696",
  "5e3434b45edbf0d1f6e02d1144dbf867a1a0120660ff52e6b1700b12c54d2d33b94b00cd7882d885ee74ccb30d649ebf6916d05a7dbe5696",
- true},
+ false,
+ false},
 
 { 174,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1927,7 +2101,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00000000000000000000000000000000",
  "265c42e2b96ea1de9c24f7182e33739000000000000000000000000000000000",
- true},
+ false,
+ false},
 
 { 175,
  "00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f",
@@ -1937,7 +2112,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ffffffffffffffffffffffffffffffff",
  "988f47668ea650cbaa6714711abe268dffffffffffffffffffffffffffffffff",
- true},
+ false,
+ false},
 
 { 176,
  "b7797eb0c1a6089ad5452d81fdb14828c040ddc4589c32b565aad8cb4de3e4a0",
@@ -1947,7 +2123,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "fd8f593b83314e33c5a72efbeb7095e8",
  "3ffd8f593b83314e33c5a72efbeb7095e8",
- true},
+ false,
+ false},
 
 { 177,
  "4c010d9561c7234c308c01cea3040c925a9f324dc958ff904ae39b37e60e1e03",
@@ -1957,7 +2134,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "5b8a2f2da20ef657c903da88ef5f57bb",
  "041341078f0439e50b43c9916351175b8a2f2da20ef657c903da88ef5f57bb",
- true},
+ false,
+ false},
 
 { 178,
  "e7f7a48df99edd92b81f508618aa96526b279debd9ddb292d385ddbae80b2259",
@@ -1967,7 +2145,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "254ada5cf662d90c5e11b2bd9c4db4c4",
  "469478d448f7e97d755541aa09ad95b0254ada5cf662d90c5e11b2bd9c4db4c4",
- true},
+ false,
+ false},
 
 { 179,
  "4f84782bfbb64a973c3de3dcfa3430367fd68bc0b4c3b31e5d7c8141ba3e6a67",
@@ -1977,7 +2156,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "8dfce16467c3a6ebb3e7242c9a551962",
  "cb960201fa5ad41d41d1c2c8037c71d52b72e76b16b589d71b976627c9734c9d8dfce16467c3a6ebb3e7242c9a551962",
- true},
+ false,
+ false},
 
 { 180,
  "34c74e28182948e03af02a01f46eb4f7",
@@ -1987,7 +2167,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "4b6f6f5be291a90b9e93a8a82ddbc8d8",
  "2bc3ef8e7402b4631f48e9be4b6f6f5be291a90b9e93a8a82ddbc8d8",
- true},
+ false,
+ false},
 
 { 181,
  "55cb7cac77efe18a1ea3b30c65f3f346",
@@ -1997,7 +2178,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "05975b175316df8045889f43e0c857e0",
  "4fe13ef29f118f85a63188f805975b175316df8045889f43e0c857e0",
- true},
+ false,
+ false},
 
 { 182,
  "f6a4bf8c4e15034699ce5801cbbac7509cd3f94cf28d8307",
@@ -2007,7 +2189,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "e370e7dd328655929bd4691f396a1033",
  "a2966fb189f8d9d391503857e370e7dd328655929bd4691f396a1033",
- true},
+ false,
+ false},
 
 { 183,
  "66f75acbd8d3acf7af47d13e8384c2809d6b91503a7f294b",
@@ -2017,7 +2200,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "20529bff3c59222ec33353af337b1d40",
  "9af1a022c61c4315aa0e923e20529bff3c59222ec33353af337b1d40",
- true},
+ false,
+ false},
 
 { 184,
  "ef2e299dd4ecd7e3b9cc62780922cc2c89f78840564d1276",
@@ -2027,7 +2211,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "17205999491bd4c1d6c7ec3e56779c32",
  "073a5291b11df379f31b4f1617205999491bd4c1d6c7ec3e56779c32",
- true},
+ false,
+ false},
 
 { 185,
  "df64c84ae52d9ca820a47421bed6e96f7165369fc4c1b65f8f6307b17ce1006c",
@@ -2037,7 +2222,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "00955d7d27f66868cfec734bf59c5e6d",
  "99313a220d1fcb665887628300955d7d27f66868cfec734bf59c5e6d",
- true},
+ false,
+ false},
 
 { 186,
  "e98b0669a645eb14cd06df6968fc5f10edc9f54feed264e3d410cdc61b72ef51",
@@ -2047,7 +2233,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "36b15bab6923b17218fe1c24048e2391",
  "fc213602aa423b87d7c2a87436b15bab6923b17218fe1c24048e2391",
- true},
+ false,
+ false},
 
 { 187,
  "849b3e6b8cdd85bdcfb8eb701aa5522ae2340fbe5214e389622cef76979225c4",
@@ -2057,6 +2244,73 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "7cf036d235d3b2dd349a8c804b65144a",
  "c1d76233e8c5042e92bf8d327cf036d235d3b2dd349a8c804b65144a",
+ false,
+ false},
+
+{ 188,
+ "8f3f52e3c75c58f5cb261f518f4ad30a",
+ "",
+ "",
+ "",
+ "",
+ "cf71978ffcc778f3c85ac9c31b6fe191",
+ "cf71978ffcc778f3c85ac9c31b6fe191",
+ true,
+ true},
+
+{ 189,
+ "2a4bf90e56b70fdd8649d775c089de3b",
+ "324ced6cd15ecc5b3741541e22c18ad9",
+ "",
+ "",
+ "",
+ "a2c7e8d7a19b884f742dfec3e76c75ee",
+ "00a29f0a5e2e7490279d1faf8b881c7ba2c7e8d7a19b884f742dfec3e76c75ee",
+ true,
+ true},
+
+{ 190,
+ "0b18d21337035c7baa08211b702fa780ac7c09be8f9ed11f",
+ "",
+ "",
+ "",
+ "",
+ "ca69a2eb3a096ea36b1015d5dffff532",
+ "ca69a2eb3a096ea36b1015d5dffff532",
+ true,
+ true},
+
+{ 191,
+ "ba76d594a6df915bb7ab7e6d1a8d024b2796336c1b8328a9",
+ "d62f302742d61d823ea991b93430d589",
+ "",
+ "",
+ "",
+ "2c9488d53a0b2b5308c2757dfac7219f",
+ "509b0658d09f7a5bb9db43b70c8387f72c9488d53a0b2b5308c2757dfac7219f",
+ true,
+ true},
+
+{ 192,
+ "3f8ca47b9a940582644e8ecf9c2d44e8138377a8379c5c11aafe7fec19856cf1",
+ "",
+ "",
+ "",
+ "",
+ "1726aa695fbaa21a1db88455c670a4b0",
+ "1726aa695fbaa21a1db88455c670a4b0",
+ true,
+ true},
+
+{ 193,
+ "7660d10966c6503903a552dde2a809ede9da490e5e5cc3e349da999671809883",
+ "c314235341debfafa1526bb61044a7f1",
+ "",
+ "",
+ "",
+ "8fe0520ad744a11f0ccfd228454363fa",
+ "7772ea358901f571d3d35c19497639d98fe0520ad744a11f0ccfd228454363fa",
+ true,
  true},
 
 { 194,
@@ -2067,7 +2321,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "af498f701d2470695f6e7c8327a2398b",
  "af498f701d2470695f6e7c8327a2398b",
- true},
+ false,
+ false},
 
 { 195,
  "fec58aa8cf06bfe05de829f27ec77693",
@@ -2077,7 +2332,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "96e6fd2cdc707e3ee0a1c90d34c9c36c",
  "0a24612a9d1cbe967dbfe804bf8440e596e6fd2cdc707e3ee0a1c90d34c9c36c",
- true},
+ false,
+ false},
 
 { 196,
  "88a972cce9eaf5a7813ce8149d0c1d0e",
@@ -2087,7 +2343,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "4ccf1efb4da05b4ae4452aea42f5424b",
  "4ccf1efb4da05b4ae4452aea42f5424b",
- true},
+ false,
+ false},
 
 { 197,
  "b43967ee933e4632bd6562ba1201bf83",
@@ -2097,7 +2354,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "98f47a5279cebbcac214515710f6cd8a",
  "ba3e7f8b2999995c7fc4006ca4f475ff98f47a5279cebbcac214515710f6cd8a",
- true},
+ false,
+ false},
 
 { 198,
  "4e9a97d3ed54c7b54610793ab05052e1",
@@ -2107,7 +2365,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "e574b355bda2980e047e584feb1676ca",
  "e574b355bda2980e047e584feb1676ca",
- true},
+ false,
+ false},
 
 { 199,
  "d83c1d7a97c43f182409a4aa5609c1b1",
@@ -2117,7 +2376,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "5c0bb79d8240041edce0f94bd4bb384f",
  "1b84baea9df1e65bee7b49e4a8cda1ec5c0bb79d8240041edce0f94bd4bb384f",
- true},
+ false,
+ false},
 
 { 200,
  "c6a705677affb49e276d9511caa46145",
@@ -2127,7 +2387,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1e2ed72af590cafb8647d185865f5463",
  "1e2ed72af590cafb8647d185865f5463",
- true},
+ false,
+ false},
 
 { 201,
  "eba7699b56cc0aa2f66a2a5be9944413",
@@ -2137,7 +2398,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "9c0e22e5c41b1039ff5661ffaefa8e0f",
  "18291aa8dc7b07448aa8f71bb8e380bf9c0e22e5c41b1039ff5661ffaefa8e0f",
- true},
+ false,
+ false},
 
 { 202,
  "c70ce38e84e5f53ed41c3f0d2ca493412ad32cb04c6e2efa",
@@ -2147,7 +2409,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "08d96edb5e22874cd10cb2256ca04bc6",
  "08d96edb5e22874cd10cb2256ca04bc6",
- true},
+ false,
+ false},
 
 { 203,
  "74c816b83dfd287210a3e2c6da8d3053bbfbd9b156d3fdd8",
@@ -2157,7 +2420,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "96a132ed43924e98feb888ff682bdaef",
  "6c5e796ba9a3ddc64f401e68d135101d96a132ed43924e98feb888ff682bdaef",
- true},
+ false,
+ false},
 
 { 204,
  "cbf45ba488932aea1a10e5862f92e4a7e277bda9f34af6d0",
@@ -2167,7 +2431,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1f0d23070fcd748e25bf6454f5c9136e",
  "1f0d23070fcd748e25bf6454f5c9136e",
- true},
+ false,
+ false},
 
 { 205,
  "e1c0446f11ae6aa4fa254f9a846fc6e13e45e537e47f2042",
@@ -2177,7 +2442,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "f6e0a979481f9957ddad0f21a777a73a",
  "550b48a43e821fd76f49f0f1a897aeadf6e0a979481f9957ddad0f21a777a73a",
- true},
+ false,
+ false},
 
 { 206,
  "567563bf4cf154902275a53bc57cd6dd7b370d27011bdac8",
@@ -2187,7 +2453,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1475563e3212f3b5e40062569afd71e3",
  "1475563e3212f3b5e40062569afd71e3",
- true},
+ false,
+ false},
 
 { 207,
  "834d0bb601170865a78139428a1503695a6a291ebd747cd1",
@@ -2197,7 +2464,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "03ab26993b701910a2e8ecccd2ba9e52",
  "309133e76159fe8a41b20843486511ab03ab26993b701910a2e8ecccd2ba9e52",
- true},
+ false,
+ false},
 
 { 208,
  "99fb18f5ba430bb9ea942968ecb799b43406e1af4b6425a1",
@@ -2207,7 +2475,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "d7b9a6b58a97982916e83219fbf71b1e",
  "d7b9a6b58a97982916e83219fbf71b1e",
- true},
+ false,
+ false},
 
 { 209,
  "b77b242aa0d51c92fda013e0cb0ef2437399ace5d3f507e4",
@@ -2217,7 +2486,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "c052a55df3926a50990a532efe3d80ec",
  "e08261e46eaf90d978ea8f7889bccd4fc052a55df3926a50990a532efe3d80ec",
- true},
+ false,
+ false},
 
 { 210,
  "8f9a38c1014966e4d9ae736139c5e79b99345874f42d4c7d2c81aa6797c417c0",
@@ -2227,7 +2497,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "2a268bf3a75fd7b00ba230b904bbb014",
  "2a268bf3a75fd7b00ba230b904bbb014",
- true},
+ false,
+ false},
 
 { 211,
  "144cd8279229e8bb2de99d24e615306663913fe9177fcd270fafec493d43bca1",
@@ -2237,7 +2508,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "8bbad4adc54b37a2b2f0f6e8617548c9",
  "7bea30ecc2f73f8e121263b37966954c8bbad4adc54b37a2b2f0f6e8617548c9",
- true},
+ false,
+ false},
 
 { 212,
  "7d31861f9d3536e14016a3216b1042e0d2f7d4614314268b6f834ec7f38bbb65",
@@ -2247,7 +2519,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "1d978a693120c11f6d51a3ed88cd4ace",
  "1d978a693120c11f6d51a3ed88cd4ace",
- true},
+ false,
+ false},
 
 { 213,
  "22b35fe9623ee11f8b60b6d22db3765b666ed972fa7ccd92b45f22deee02cab1",
@@ -2257,7 +2530,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b63ff43c12073ec5572b1be70f17e231",
  "9c39f5b110361e9a770cc5e8b0f444bbb63ff43c12073ec5572b1be70f17e231",
- true},
+ false,
+ false},
 
 { 214,
  "c224e0bba3d7a99165f7996b67a0fce3e12f2c01179b197b69b7e628bca92096",
@@ -2267,7 +2541,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "ae6f7c9a29f0d8204ca50b14a1e0dcf2",
  "ae6f7c9a29f0d8204ca50b14a1e0dcf2",
- true},
+ false,
+ false},
 
 { 215,
  "093eb12343537ee8e91c1f715b862603f8daf9d4e1d7d67212a9d68e5aac9358",
@@ -2277,7 +2552,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "b824c33c13f289429659aa017c632f71",
  "f73f72f976a296ba3ca94bc6eb08cd46b824c33c13f289429659aa017c632f71",
- true},
+ false,
+ false},
 
 { 216,
  "98e6f8ab673e804e865e32403a6551bf807a959343c60d34559360bc295ecb5b",
@@ -2287,7 +2563,8 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "3db16725fafc828d414ab61c16a6c38f",
  "3db16725fafc828d414ab61c16a6c38f",
- true},
+ false,
+ false},
 
 { 217,
  "0bd0e8e7781166e1d876dec8fad34ba95b032a27cac0551595116091005947b7",
@@ -2297,66 +2574,7 @@ const gcm_kat_value kGcmWycheproofVectors[] = {
  "",
  "c8fc39906aca0c64e14a43ff750abd8a",
  "ed463f4f43336af3f4d7e08770201145c8fc39906aca0c64e14a43ff750abd8a",
- true}};
-
-const gcm_kat_value kGcmWycheproofEmptyIVVectors[] = {{ 188,
- "8f3f52e3c75c58f5cb261f518f4ad30a",
- "",
- "",
- "",
- "",
- "cf71978ffcc778f3c85ac9c31b6fe191",
- "cf71978ffcc778f3c85ac9c31b6fe191",
- false},
-
-{ 189,
- "2a4bf90e56b70fdd8649d775c089de3b",
- "324ced6cd15ecc5b3741541e22c18ad9",
- "",
- "",
- "",
- "a2c7e8d7a19b884f742dfec3e76c75ee",
- "00a29f0a5e2e7490279d1faf8b881c7ba2c7e8d7a19b884f742dfec3e76c75ee",
- false},
-
-{ 190,
- "0b18d21337035c7baa08211b702fa780ac7c09be8f9ed11f",
- "",
- "",
- "",
- "",
- "ca69a2eb3a096ea36b1015d5dffff532",
- "ca69a2eb3a096ea36b1015d5dffff532",
- false},
-
-{ 191,
- "ba76d594a6df915bb7ab7e6d1a8d024b2796336c1b8328a9",
- "d62f302742d61d823ea991b93430d589",
- "",
- "",
- "",
- "2c9488d53a0b2b5308c2757dfac7219f",
- "509b0658d09f7a5bb9db43b70c8387f72c9488d53a0b2b5308c2757dfac7219f",
- false},
-
-{ 192,
- "3f8ca47b9a940582644e8ecf9c2d44e8138377a8379c5c11aafe7fec19856cf1",
- "",
- "",
- "",
- "",
- "1726aa695fbaa21a1db88455c670a4b0",
- "1726aa695fbaa21a1db88455c670a4b0",
- false},
-
-{ 193,
- "7660d10966c6503903a552dde2a809ede9da490e5e5cc3e349da999671809883",
- "c314235341debfafa1526bb61044a7f1",
- "",
- "",
- "",
- "8fe0520ad744a11f0ccfd228454363fa",
- "7772ea358901f571d3d35c19497639d98fe0520ad744a11f0ccfd228454363fa",
+ false,
  false}};
 
 #endif  // gcm_vectors_h__
