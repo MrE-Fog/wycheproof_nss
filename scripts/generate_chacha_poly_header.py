@@ -47,7 +47,8 @@ def format_testcase_to_nss(testcase):
     nss_vector += "{},\n".format(string_to_hex_array(testcase["iv"]))
     ct = testcase["ct"] + testcase["tag"]
     nss_vector += "{},\n".format(string_to_hex_array(ct))
-    nss_vector += "{}}},\n".format(str(testcase["result"] == "valid").lower())
+    nss_vector += "{},\n".format(str(testcase["result"] == "invalid").lower())
+    nss_vector += "{}}},\n".format(str(case["comment"] == "invalid nonce size").lower())
 
     return nss_vector
 
@@ -56,22 +57,17 @@ cases = import_testvector(source_file)
 
 with open(base_file) as base:
     header = base.read()
-    
+
+header = header[:-35]
+
 header += "\n\n// Testvectors from project wycheproof\n"
 header += "// <https://github.com/google/wycheproof>\n"
 header += "const chacha_testvector kChaCha20WycheproofVectors[] = {\n"
 
-invalidNonceGroup = "const chacha_testvector kChaCha20WycheproofInvalidNonceVectors[] = {\n"
-    
 for group in cases["testGroups"]:
     for case in group["tests"]:
-        if case["comment"] == "invalid nonce size":
-            invalidNonceGroup += format_testcase_to_nss(case)
-        else:
             header += format_testcase_to_nss(case)
-            
-header = header[:-2] + "};\n\n"
-header += invalidNonceGroup
+
 header = header[:-2] + "};\n\n"
 
 header += "#endif  // chachapoly_vectors_h__\n"
